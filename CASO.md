@@ -10,24 +10,66 @@
 
 ## 0. Choose (decision sheet)
 
+<!-- Fill this in BEFORE opening a single data file. If it cannot be completed, the case is not
+     ready. Full gate: references/eleccion-del-caso.md -->
+
 **Date:** <YYYY-MM-DD>
 
 ### The case
-- **Sector / fictional client:** <who needs the decision>
+- **Sector / fictional client:** <who needs the decision. A client that only sees one side of the
+  problem cannot ask about the whole of it — pick the vantage point the question requires>
+- **Business problem in one sentence:** <the decision that cannot be made today>
+- **Decision it unlocks:** <what changes once it is answered. If you cannot name one, stop here:
+  this criterion is eliminatory>
+- **Audience:** <who is in the room, and whether they are domain readers or not>
+
+### The data
+<One row per candidate source. Licence is eliminatory too: no licence, no case.>
+
+| Source | Job in this case | Period / volume | Licence |
+|---|---|---|---|
+| | | | |
+
+- **Initial integrity test:** ✅ / ⚠️ — <volume · time range · nulls · key uniqueness · extremes.
+  Run it before committing to the source: finding out in phase 4 that the key column is missing is
+  the most expensive failure in the process>
+- **Does it carry the fields the question demands?** yes / no — <which are missing>
+- **What this source cannot answer:** <the limit you already know about, stated now rather than
+  discovered later>
+
+### Calibration
+- **Effort estimate:** <days>
+- **Enough for a 30-minute talk?** yes / no
+- **Real cleaning to document?** yes / no
+
+### Portfolio fit
 - **Why this one:** <which cell of the coverage matrix it fills — if it fills none, pick another
   angle. See references/portafolio.md section 1.>
 - **What it demonstrates that the others don't:** <feeds the `demonstrates` field of the contract>
+- **Primary tool:** <spreadsheet / SQL / Python / Tableau>
+- **Dataset saturation:** low / medium / high
+
+### Decision
+- [ ] Go
+- [ ] Dropped — reason: <write it down anyway, so the next case doesn't rediscover it>
 
 ## 1. Ask
 
 **Status:** ⬜ open
 
-- **Business problem:** <the decision that cannot be made today>
+<!-- This section sharpens what phase 0 sketched; it does not restate it. Rewrite the lines above
+     rather than keeping two versions that drift apart. -->
+
+- **Business problem:** <the phase 0 sentence, now precise about who and when>
 - **Analytical question (SMART):** <specific, measurable, with its filters and controls stated>
 - **Decision this unlocks:** <what changes once it is answered>
 - **Problem type:** <find patterns · predict · categorize · spot something unusual ·
   identify themes · discover connections — exactly one, and it must match `problemType`
   in the site's front-matter>
+- **Initial hypothesis:** <what you expect to find, written down BEFORE touching the data.
+  Phase 4 checks the result against this line. Without it, a later "the data contradicted me"
+  cannot be told apart from a story rewritten after the fact>
+- **Out of scope:** <what this case deliberately does not answer>
 
 - **Stakeholders:**
 
@@ -63,8 +105,8 @@ modified in place: each transformation produces a new file.
 
 - **Finding:** <the headline — the finding, not the topic. Same claim as `title` on the site.>
 - **Checks:** `notebooks/verificar.py` — <what each one rules out>
-- **Contradicted the initial hypothesis:** <yes/no — a "yes" is the most valuable outcome
-  of all, because it shows the conclusion wasn't forced>
+- **Contradicted the initial hypothesis:** <yes/no, against the hypothesis recorded in phase 1 —
+  a "yes" is the most valuable outcome of all, because it shows the conclusion wasn't forced>
 
 ## 5. Share
 
