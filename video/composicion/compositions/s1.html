@@ -1,0 +1,71 @@
+<template id="s1-template">
+  <div data-composition-id="s1" data-width="1920" data-height="1080">
+    <!--
+      Scene 1 · The hook. An EXAMPLE to copy, with the three patterns the first case used most:
+
+      1. Words that appear as they are spoken. Each word carries its start time (data-t, seconds,
+         scene-local) from transcript.json: the transcript time minus the scene's data-start on
+         the root. Use the transcript's TIMES only; its text mishears words, so the words on
+         screen come from guion.md.
+      2. A counter that runs to a number from window.DATOS, never one typed here.
+      3. A clean hand-off: everything fades just before the scene ends.
+
+      Times here are placeholders until the voice is recorded and transcribed.
+    -->
+    <p id="s1-premise">
+      <span class="w" data-t="0.20">The </span><span class="w" data-t="0.45">question </span><span class="w" data-t="0.90">the </span><span class="w" data-t="1.10">client </span><span class="w hi" data-t="1.50">needs </span><span class="w" data-t="1.90">answered.</span>
+    </p>
+    <div id="s1-count">0</div>
+    <div id="s1-count-label"></div>
+
+    <style>
+      [data-composition-id="s1"] .w { display: inline-block; white-space: pre; }
+      [data-composition-id="s1"] #s1-premise {
+        position: absolute; left: 128px; top: 260px; width: 1500px;
+        font-size: 72px; font-weight: 700; line-height: 1.12; letter-spacing: -0.025em;
+      }
+      [data-composition-id="s1"] .hi { color: var(--acento); }
+      [data-composition-id="s1"] #s1-count {
+        position: absolute; left: 128px; top: 520px;
+        font-size: 160px; font-weight: 700; letter-spacing: -0.035em;
+        font-variant-numeric: tabular-nums; color: var(--acento);
+      }
+      [data-composition-id="s1"] #s1-count-label {
+        position: absolute; left: 128px; top: 730px;
+        font-size: 30px; font-weight: 600; color: var(--tinta-suave);
+      }
+    </style>
+
+    <script>
+      (() => {
+        const raiz = document.querySelector('[data-composition-id="s1"]');
+        const $ = (sel) => raiz.querySelector(sel);
+        const { hook } = window.DATOS;
+        $("#s1-count-label").textContent = hook.label;
+
+        // Deterministic only: no Math.random, no Date, no fetch. Renders must repeat frame for
+        // frame. When something needs to look random, use an integer hash of the index.
+        const tl = gsap.timeline({ paused: true });
+
+        raiz.querySelectorAll(".w").forEach((w) => {
+          tl.from(w, { opacity: 0, y: 22, duration: 0.35, ease: "power2.out" }, Number(w.dataset.t));
+        });
+
+        tl.from([$("#s1-count"), $("#s1-count-label")], { opacity: 0, duration: 0.3 }, 2.4);
+        const contador = { v: 0 };
+        tl.to(contador, {
+          v: hook.total,
+          duration: 2.2,
+          ease: "power1.inOut",
+          onUpdate: () => { $("#s1-count").textContent = Math.round(contador.v).toLocaleString("en-US"); },
+        }, 2.5);
+
+        // Hand-off to the next scene.
+        tl.to(raiz.children, { opacity: 0, duration: 0.3, ease: "power1.in" }, 6.6);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["s1"] = tl;
+      })();
+    </script>
+  </div>
+</template>

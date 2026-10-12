@@ -30,7 +30,8 @@ process, findings, recommendations — lives on the site linked above.
 ├── salidas/
 │   ├── graficos/                 # the figures used on the site
 │   └── tablas/                   # the aggregate tables that cross to the site
-└── entregables/                  # executive summary, deck, recommendation cards
+├── entregables/                  # executive summary, deck, recommendation cards
+└── video/                        # the case's narrated trailer: see video/README.md
 ```
 
 ## Data

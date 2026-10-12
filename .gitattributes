@@ -6,3 +6,8 @@
 *.png binary
 *.pptx binary
 *.docx binary
+*.jpg binary
+*.ttf binary
+*.wav binary
+*.mp3 binary
+*.mp4 binary

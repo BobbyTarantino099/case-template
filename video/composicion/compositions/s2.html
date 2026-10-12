@@ -1,0 +1,54 @@
+<template id="s2-template">
+  <div data-composition-id="s2" data-width="1920" data-height="1080">
+    <!--
+      Scene 2 · The closing card. An EXAMPLE to copy: the last scene invites reading the case.
+      It appears as the last sentence ends and then holds, still, to the end of the video, so it
+      can be read over the music alone.
+
+      The card carries the case's published headline only once that headline has been checked
+      against the data the video shows. The first case closed on its name instead, because its
+      headline overstated the finding the video corrected.
+    -->
+    <div id="s2-card">
+      <p id="s2-kicker">Data analysis case study</p>
+      <p id="s2-name">&lt;The case's name&gt;</p>
+      <p id="s2-meta">&lt;N rows&gt; · &lt;N sources&gt; · &lt;tools&gt;</p>
+      <div id="s2-url"><span>Read the case</span><b>juanesportfolio.com/cases/&lt;slug&gt;</b></div>
+    </div>
+
+    <style>
+      [data-composition-id="s2"] #s2-card { position: absolute; left: 128px; top: 300px; width: 1660px; }
+      [data-composition-id="s2"] #s2-kicker {
+        font-size: 28px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tinta-suave);
+      }
+      [data-composition-id="s2"] #s2-name {
+        margin-top: 18px; font-size: 104px; font-weight: 700; letter-spacing: -0.035em; line-height: 1.02;
+        text-wrap: balance;
+      }
+      [data-composition-id="s2"] #s2-meta { margin-top: 26px; font-size: 30px; color: var(--tinta-suave); }
+      [data-composition-id="s2"] #s2-url {
+        margin-top: 72px; display: inline-flex; align-items: center; gap: 24px;
+        padding: 22px 34px; border-radius: 16px; background: var(--acento); color: #fff;
+      }
+      [data-composition-id="s2"] #s2-url span { font-size: 28px; font-weight: 600; opacity: 0.9; }
+      [data-composition-id="s2"] #s2-url b { font-size: 36px; letter-spacing: -0.01em; }
+    </style>
+
+    <script>
+      (() => {
+        const raiz = document.querySelector('[data-composition-id="s2"]');
+        const $ = (sel) => raiz.querySelector(sel);
+        const tl = gsap.timeline({ paused: true });
+
+        tl.from($("#s2-kicker"), { opacity: 0, y: 16, duration: 0.4, ease: "power2.out" }, 0.2);
+        tl.from($("#s2-name"), { opacity: 0, y: 28, duration: 0.5, ease: "power3.out" }, 0.3);
+        tl.from($("#s2-meta"), { opacity: 0, duration: 0.4 }, 0.6);
+        tl.from($("#s2-url"), { opacity: 0, y: 20, scale: 0.96, duration: 0.45, ease: "back.out(1.8)" }, 0.7);
+        // Then the card holds to the end: nothing moves while it is being read.
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["s2"] = tl;
+      })();
+    </script>
+  </div>
+</template>

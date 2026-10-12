@@ -21,6 +21,18 @@ datos/limpios/*
 datos/intermedios/*
 !datos/intermedios/.gitkeep
 
+# Video (video/README.md): the voice is personal and the music's licence forbids redistributing
+# the file; renders are outputs. The published video is the public form of all of them.
+video/voz*.wav
+video/musica*.mp3
+video/composicion/voz_limpia.wav
+video/composicion/mezcla.wav
+video/composicion/transcript.json
+video/composicion/renders/
+# Generic agent instructions that `hyperframes init` writes into every project.
+video/composicion/CLAUDE.md
+video/composicion/AGENTS.md
+
 # OS / environment junk
 .DS_Store
 Thumbs.db
