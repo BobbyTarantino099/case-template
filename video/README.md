@@ -21,6 +21,7 @@ Chrome and encoded with FFmpeg.
 ```
 video/
 ├── guion.md              # the script: narration, visuals, and why each claim holds
+├── unir_partes.py        # 0. joins the take when it was recorded in parts (optional)
 ├── empalmar_voz.py       # 1. splices re-recorded sentences into the take (or copies it)
 ├── limpiar_voz.py        # 2. denoises the voice and sets its loudness
 ├── datos_video.py        # 3. pulls every number on screen from the case's files
@@ -57,6 +58,7 @@ to HeyGen.
 From the case root, in this order. Each step reads the previous one's output:
 
 ```bash
+python video/unir_partes.py      # only if recorded in parts: Part 1.wav … -> voz.wav
 python video/empalmar_voz.py     # voz.wav (+ fragments)         -> voz_empalmada.wav
 python video/limpiar_voz.py      # -> composicion/voz_limpia.wav (-19 LUFS, mono)
 python video/datos_video.py      # the case's files               -> composicion/assets/datos.js
@@ -75,14 +77,18 @@ python video/portada.py          # render -> video/portada.jpg
 
 1. **Write the script and check every claim against the data before recording.** Use
    `datos_video.py` to recompute the number behind each sentence, and write the result in
-   *Notes on the claims*. In the first case two sentences of the take overstated what the
+   *Notes on the claims*. Check its **direction** too, not only its numbers: in the second case a
+   sentence with the right numbers said the opposite of what they showed ("the more young
+   players vanish", when it was the veterans). In the first case two sentences of the take overstated what the
    analysis shows. Both were found only when the data behind each scene was recomputed, and each
    cost a re-recording and a splice. Checking first is cheaper. If a claim turns out to be
    wrong, the published case is probably wrong too: correct it as well.
 2. **Record the whole take** in your own voice, with the same microphone, room and distance
    throughout, a second of silence at both ends, and a few seconds of the room alone. Synthetic
    voices (`hyperframes tts`, Kokoro) were tried and dropped: too robotic, and they skip the
-   pauses the script relies on. Save it as `video/voz.wav`.
+   pauses the script relies on. Save it as `video/voz.wav`. Or record **one part per scene**
+   (`Part 1.wav`, `Part 2.wav`, …), which the second case found easier: a mistake costs one
+   part, not the take, and `unir_partes.py` levels and joins them.
 3. **Clean it** with `empalmar_voz.py` and `limpiar_voz.py`. Measure the noise in a pause first:
    the denoiser's floor (`nf`) must sit below it.
 4. **Transcribe** to get word timings. The transcript's *text* is unreliable (it misheard "fund"
@@ -92,6 +98,8 @@ python video/portada.py          # render -> video/portada.jpg
    transcript time minus the scene's start on the root. `compositions/s1.html` and `s2.html` are
    examples of the patterns that carried the first case: words synced to the voice, a counter
    from `window.DATOS`, a closing card that holds.
+   Animate a line's drawing with a widening clip, not `stroke-dashoffset`: in the frame-by-frame
+   render the dash draw stays invisible and then jumps to the whole line.
 6. **Music last**, once the cut is final: `mezclar_audio.py` reads the video's length from
    `index.html`, and the ducking follows the voice. Try two or three tracks and choose by ear.
 7. **Render, upload, embed** (next section).

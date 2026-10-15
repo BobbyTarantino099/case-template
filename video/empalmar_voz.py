@@ -37,6 +37,9 @@ DESTINO = DIR / "voz_empalmada.wav"
 # Example: (DIR / "voz_fragmento_s3.wav", 31.30, 42.00, 0.0),
 FRAGMENTOS = []
 FUNDIDO = 0.03      # s, crossfade at each join
+# Take and fragments to one format before joining: a fragment recorded in stereo at 44.1 kHz
+# would not crossfade with a mono 48 kHz take.
+FORMATO = "aformat=channel_layouts=mono,aresample=48000"
 
 
 def lufs(archivo: Path, desde: float | None = None, hasta: float | None = None) -> float:
@@ -75,12 +78,12 @@ def main() -> None:
         cola = ""
         if fundido:
             cola = f",afade=t=out:st={duracion(fragmento) - fundido:.3f}:d={fundido}"
-        grafo.append(f"[0:a]atrim={desde}:{entra},asetpts=PTS-STARTPTS[toma{k}]")
-        grafo.append(f"[{k}:a]volume={ganancia:.2f}dB{cola},asetpts=PTS-STARTPTS[frag{k}]")
+        grafo.append(f"[0:a]{FORMATO},atrim={desde}:{entra},asetpts=PTS-STARTPTS[toma{k}]")
+        grafo.append(f"[{k}:a]{FORMATO},volume={ganancia:.2f}dB{cola},asetpts=PTS-STARTPTS[frag{k}]")
         partes += [f"toma{k}", f"frag{k}"]
         resumen.append(f"{fragmento.name} {entra}-{sale} s ({ganancia:+.1f} dB)")
         desde = sale
-    grafo.append(f"[0:a]atrim=start={desde},asetpts=PTS-STARTPTS[resto]")
+    grafo.append(f"[0:a]{FORMATO},atrim=start={desde},asetpts=PTS-STARTPTS[resto]")
     partes.append("resto")
 
     # Chain the parts with crossfades: [a][b] -> x1, [x1][c] -> x2, ...
